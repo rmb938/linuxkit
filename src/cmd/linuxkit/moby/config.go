@@ -171,13 +171,13 @@ func uniqueServices(m Moby) error {
 }
 
 func extractReferences(m *Moby) error {
-	// if m.From != nil {
-	// 	r, err := reference.Parse(*m.From)
-	// 	if err != nil {
-	// 		return fmt.Errorf("extract from image reference: %v", err)
-	// 	}
-	// 	m.fromRef = &r
-	// }
+	if m.From != "" {
+		r, err := reference.Parse(m.From)
+		if err != nil {
+			return fmt.Errorf("extract from image reference: %v", err)
+		}
+		m.fromRef = &r
+	}
 	if m.Kernel.Image != "" {
 		r, err := reference.Parse(m.Kernel.Image)
 		if err != nil {
@@ -291,6 +291,9 @@ func AppendConfig(m0, m1 Moby) (Moby, error) {
 	moby := m0
 	if m1.From != "" {
 		moby.From = m1.From
+	}
+	if m1.fromRef != nil {
+		moby.fromRef = m1.fromRef
 	}
 	if m1.Kernel.Image != "" {
 		moby.Kernel.Image = m1.Kernel.Image

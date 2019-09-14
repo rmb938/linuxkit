@@ -1,4 +1,8 @@
-from: sshd.tar
+# 1. Build sshd linuxkit build -format docker examples/sshd.yml
+# 2. Import the image docker import sshd.docker local/linuxkit-sshd
+# 3. Build this image linuxkit build examples/from-sshd.yml
+
+from: local/linuxkit-sshd
 services:
   - name: ntpd
     image: linuxkit/openntpd:v0.7
